@@ -17,6 +17,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -128,6 +130,7 @@ public class Funcionario implements Serializable {
 		return qtdHorasAlmoco;
 	}
 	
+	@Transient
 	public Optional<Float> getQtdHorasAlmocoOpt() {
 		return Optional.ofNullable(qtdHorasAlmoco);
 	}
@@ -181,6 +184,18 @@ public class Funcionario implements Serializable {
 	public void setLancamentos(List<Lancamento> lancamentos) {
 		this.lancamentos = lancamentos;
 	}
+	
+	@PreUpdate
+    public void preUpdate() {
+        dataAtualizacao = new Date();
+    }
+     
+    @PrePersist
+    public void prePersist() {
+        final Date atual = new Date();
+        dataCriacao = atual;
+        dataAtualizacao = atual;
+    }
 
 	@Override
 	public String toString() {
