@@ -182,6 +182,7 @@ public class LancamentoController {
 		
 		if (lancamento.isPresent()) {
 			LancamentoDto lancamentoDto = this.converterLancamentoDto(lancamento.get());
+			response.setData(lancamentoDto);
 		}
 		
 		return ResponseEntity.ok(response);
